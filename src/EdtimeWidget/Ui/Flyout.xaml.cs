@@ -24,7 +24,7 @@ public partial class Flyout : Window
 
     public event Action? SettingsRequested;
 
-    /// <summary>When the flyout was last hidden; used so a click on the pill that closed it doesn't reopen it.</summary>
+    /// <summary>When the flyout was last hidden; used so a click on the tray icon that closed it doesn't reopen it.</summary>
     public DateTime LastHidden { get; private set; }
 
     public Flyout(StatusService service)
@@ -35,9 +35,9 @@ public partial class Flyout : Window
         SizeChanged += (_, _) => PlaceAtAnchor();
     }
 
-    internal void ShowAt(Native.RECT pill)
+    internal void ShowAt(Native.RECT anchor)
     {
-        _anchor = pill;
+        _anchor = anchor;
         _confirmEndUntil = default;
         Render();
         Show();
@@ -48,16 +48,16 @@ public partial class Flyout : Window
 
     private void PlaceAtAnchor()
     {
-        if (_anchor is not { } pill || !IsVisible) return;
+        if (_anchor is not { } anchor || !IsVisible) return;
         var hwnd = new WindowInteropHelper(this).Handle;
         var scale = Native.GetDpiForWindow(hwnd) / 96.0;
         var width = (int)Math.Ceiling(ActualWidth * scale);
         var height = (int)Math.Ceiling(ActualHeight * scale);
         var gap = (int)(12 * scale);
 
-        var area = System.Windows.Forms.Screen.FromPoint(new System.Drawing.Point(pill.Left, pill.Top)).WorkingArea;
-        var x = Math.Clamp(pill.Right - width, area.Left + gap, Math.Max(area.Left + gap, area.Right - width - gap));
-        var taskbarAtTop = pill.Top < area.Top + area.Height / 2;
+        var area = System.Windows.Forms.Screen.FromPoint(new System.Drawing.Point(anchor.Left, anchor.Top)).WorkingArea;
+        var x = Math.Clamp(anchor.Left + anchor.Width / 2 - width / 2, area.Left + gap, Math.Max(area.Left + gap, area.Right - width - gap));
+        var taskbarAtTop = anchor.Top < area.Top + area.Height / 2;
         var y = taskbarAtTop ? area.Top + gap : area.Bottom - height - gap;
         Native.SetWindowPos(hwnd, Native.HWND_TOPMOST, x, y, 0, 0, Native.SWP_NOSIZE);
     }

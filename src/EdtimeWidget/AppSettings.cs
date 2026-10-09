@@ -1,14 +1,27 @@
 using System;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Win32;
 
 namespace EdtimeWidget;
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum DisplayMode
+{
+    /// <summary>Only the notification-area icon, showing the state.</summary>
+    Tray,
+
+    /// <summary>A pill with state and time on the taskbar, left of the notification area.</summary>
+    Taskbar,
+}
 
 /// <summary>Non-secret settings, stored as JSON in %APPDATA%\EdtimeWidget.</summary>
 public sealed class AppSettings
 {
     public int PollSeconds { get; set; } = 60;
+
+    public DisplayMode Display { get; set; } = DisplayMode.Tray;
 
     /// <summary>Extra horizontal shift of the pill (pixels, positive = further left).</summary>
     public int OffsetX { get; set; }

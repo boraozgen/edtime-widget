@@ -11,6 +11,9 @@
         <Style TargetType="CheckBox">
             <Setter Property="Foreground" Value="{DynamicResource Fg}" />
         </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="{DynamicResource Fg}" />
+        </Style>
         <Style x:Key="Input" TargetType="Control">
             <Setter Property="Height" Value="30" />
             <Setter Property="Padding" Value="6,4" />
@@ -31,6 +34,12 @@
 
         <TextBlock Text="Passwort / PIN" />
         <PasswordBox x:Name="PasswordBox" Style="{StaticResource Input}" />
+
+        <TextBlock Text="Anzeige" />
+        <StackPanel Margin="0,6,0,12">
+            <RadioButton x:Name="TrayModeBox" Content="Nur Tray-Symbol (Status)" Margin="0,0,0,6" Checked="DisplayMode_Changed" />
+            <RadioButton x:Name="TaskbarModeBox" Content="Neben dem Tray (Status und Zeit)" Checked="DisplayMode_Changed" />
+        </StackPanel>
 
         <Grid Margin="0,0,0,12">
             <Grid.ColumnDefinitions>

@@ -24,6 +24,7 @@ public partial class SettingsWindow : Window
 
         PollBox.Text = settings.PollSeconds.ToString();
         OffsetBox.Text = settings.OffsetX.ToString();
+        (settings.Display == DisplayMode.Taskbar ? TaskbarModeBox : TrayModeBox).IsChecked = true;
         AutostartBox.IsChecked = AppSettings.Autostart;
 
         Loaded += (_, _) => (UserBox.Text.Length == 0 ? (UIElement)UserBox : PasswordBox).Focus();
@@ -58,11 +59,18 @@ public partial class SettingsWindow : Window
         }
 
         _settings.PollSeconds = poll;
+        _settings.Display = TaskbarModeBox.IsChecked == true ? DisplayMode.Taskbar : DisplayMode.Tray;
         _settings.OffsetX = offset;
         _settings.Save();
         AppSettings.Autostart = AutostartBox.IsChecked == true;
 
         DialogResult = true;
+    }
+
+    // The offset only positions the pill.
+    private void DisplayMode_Changed(object sender, RoutedEventArgs e)
+    {
+        if (OffsetBox is not null) OffsetBox.IsEnabled = TaskbarModeBox.IsChecked == true;
     }
 
     private void Logout_Click(object sender, RoutedEventArgs e)
