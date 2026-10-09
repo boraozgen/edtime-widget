@@ -1,0 +1,18 @@
+<Window x:Class="EdtimeWidget.Ui.TaskbarPill"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="edtime" WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" ShowActivated="False"
+        SizeToContent="WidthAndHeight" UseLayoutRounding="True">
+    <Border x:Name="Pill" CornerRadius="6" Padding="10,0" Height="34"
+            Background="{DynamicResource PillBg}" Cursor="Hand"
+            MouseLeftButtonUp="Pill_Click" MouseEnter="Pill_MouseEnter" MouseLeave="Pill_MouseLeave">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <TextBlock x:Name="Icon" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14"
+                       VerticalAlignment="Center" Margin="0,0,8,0" />
+            <TextBlock x:Name="Time" Typography.NumeralAlignment="Tabular" FontFamily="Segoe UI Variable Text, Segoe UI"
+                       FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource Fg}"
+                       VerticalAlignment="Center" />
+        </StackPanel>
+    </Border>
+</Window>
